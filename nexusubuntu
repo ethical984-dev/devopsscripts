@@ -31,8 +31,8 @@ nexus ALL=(ALL) NOPASSWD: ALL
 sudo chown -R nexus:nexus /opt/nexus
 sudo chown -R nexus:nexus /opt/sonatype-work        
 
-##To run nexus as service at boot time, open /opt/nexus/bin/nexus.rc file, uncomment it and add nexus user as shown below
-sudo nano /opt/nexus/bin/nexus.rc
+##To run nexus as service at boot time, open /opt/nexus/bin/nexus.rc file and add nexus user as shown below
+sudo vi /opt/nexus/bin/nexus.rc
 run_as_user="nexus"   
 
 
