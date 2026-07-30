@@ -39,40 +39,63 @@ run_as_user="nexus"
 ##To Increase the nexus JVM heap size, you can modify the size as shown below
 
 vi /opt/nexus/bin/nexus.vmoptions
+-Xms512m
+-Xmx512m
+-XX:MaxDirectMemorySize=512m
 
--Xms1024m
--Xmx1024m
--XX:MaxDirectMemorySize=1024m
-
--XX:LogFile=./sonatype-work/nexus3/log/jvm.log
+-XX:+UnlockDiagnosticVMOptions
+-XX:LogFile=/opt/sonatype-work/nexus3/log/jvm.log
 -XX:-OmitStackTraceInFastThrow
+
 -Djava.net.preferIPv4Stack=true
 -Dkaraf.home=.
 -Dkaraf.base=.
 -Dkaraf.etc=etc/karaf
--Djava.util.logging.config.file=/etc/karaf/java.util.logging.properties
--Dkaraf.data=./sonatype-work/nexus3
--Dkaraf.log=./sonatype-work/nexus3/log
--Djava.io.tmpdir=./sonatype-work/nexus3/tmp 
+-Djava.util.logging.config.file=etc/karaf/java.util.logging.properties
+-Dkaraf.data=/opt/sonatype-work/nexus3
+-Dkaraf.log=/opt/sonatype-work/nexus3/log
+-Djava.io.tmpdir=/opt/sonatype-work/nexus3/tmp
+
+# Java 9+ module options (keep as-is)
+--add-reads=java.xml=java.logging
+--add-opens=java.base/java.security=ALL-UNNAMED
+--add-opens=java.base/java.net=ALL-UNNAMED
+--add-opens=java.base/java.lang=ALL-UNNAMED
+--add-opens=java.base/java.util=ALL-UNNAMED
+--add-opens=java.naming/java.naming.spi=ALL-UNNAMED
+--add-opens=java.rmi/sun.rmi.transport.tcp=ALL-UNNAMED
+--add-exports=java.base/sun.net.www.protocol.http=ALL-UNNAMED
+--add-exports=java.base/sun.net.www.protocol.https=ALL-UNNAMED
+--add-exports=java.base/sun.net.www.protocol.jar=ALL-UNNAMED
+--add-exports=jdk.xml.dom/org.w3c.dom.html=ALL-UNNAMED
+--add-exports=jdk.naming.rmi/com.sun.jndi.url.rmi=ALL-UNNAMED
+--add-exports=java.security.sasl/com.sun.security.sasl=ALL-UNNAMED
+--add-exports=java.base/sun.security.x509=ALL-UNNAMED
+--add-exports=java.base/sun.security.rsa=ALL-UNNAMED
+--add-exports=java.base/sun.security.pkcs=ALL-UNNAMED
+
 
 ##To run nexus as service using Systemd
 sudo vi /etc/systemd/system/nexus.service
 
 
 [Unit]
-Description=nexus service
+Description=Nexus Repository Manager
 After=network.target
 
 [Service]
-Type=forking
+Type=simple
 LimitNOFILE=65536
-ExecStart=/opt/nexus/bin/nexus start
-ExecStop=/opt/nexus/bin/nexus stop
 User=nexus
-Restart=on-abort
+ExecStart=/opt/nexus/bin/nexus run
+ExecStop=/opt/nexus/bin/nexus stop
+Restart=on-failure
+Environment=JAVA_HOME=/opt/nexus/jdk/temurin_21.0.1_linux_x86_64
+
 
 [Install]
-WantedBy=multi-user.target 
+WantedBy=multi-user.target
+
 ----------------------------------------------
 TO start the nexus Service
 
