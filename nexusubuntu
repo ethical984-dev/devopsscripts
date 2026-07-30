@@ -24,7 +24,7 @@ sudo adduser nexus   --> give password
 ##To set no password for nexus user open the visudo file in ubuntu
 sudo visudo
 
-##Add below line into it , save and exit
+##Add below line into itbelow defaults use_pty line , save and exit i.e., press ctrl+X, press y and press enter
 nexus ALL=(ALL) NOPASSWD: ALL
 
 ##Give permission to nexus files and nexus directory to nexus user
