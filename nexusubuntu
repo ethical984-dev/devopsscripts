@@ -2,32 +2,6 @@
 ## update the system packages
 sudo apt-get update
 
-# Create Swap Space (ADD HERE)
-########################################
-
-echo "Creating 2GB swap space"
-
-if [ ! -f /swapfile ]; then
-
-    sudo fallocate -l 2G /swapfile
-    sudo chmod 600 /swapfile
-    sudo mkswap /swapfile
-    sudo swapon /swapfile
-
-    echo "/swapfile none swap sw 0 0" | sudo tee -a /etc/fstab
-
-else
-
-    echo "Swap already exists"
-
-fi
-
-
-echo "Current memory status"
-
-free -h
-
-
 ## #1: Install OpenJDK 21 on Ubuntu 24.04 LTS
 apt install openjdk-21-jdk openjdk-21-jre -y
 
@@ -136,3 +110,20 @@ tail -f /opt/sonatype-work/nexus3/log/nexus.log
 ufw allow 8081/tcp   --> if required
 
 http://server_IP:8081  
+
+#swap space
+
+sudo rm -rf /tmp/*
+sudo rm -rf /var/lib/jenkins/workspace/*
+
+
+sudo fallocate -l 3G /swapfile
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+
+
+echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
+
+
+sudo mount -o remount,size=3G /tmp
