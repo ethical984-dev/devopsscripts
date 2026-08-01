@@ -2,8 +2,8 @@
 ## update the system packages
 sudo apt-get update
 
-## #1: Install OpenJDK 17 on Ubuntu 24.04 LTS
-apt install openjdk-17-jdk openjdk-17-jre -y
+## #1: Install OpenJDK 21 on Ubuntu 24.04 LTS
+apt install openjdk-21-jdk openjdk-21-jre -y
 
 ##Download the SonaType Nexus on Ubuntu using wget
 cd /opt 
