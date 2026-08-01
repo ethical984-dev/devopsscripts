@@ -1,3 +1,4 @@
+
 #STEP-1: Installing Git and Maven
 yum install git maven -y
 
@@ -15,3 +16,22 @@ systemctl status jenkins.service
 
 #STEP-5: Auto-Start Jenkins
 chkconfig jenkins on
+
+#swap space
+sudo rm -rf /tmp/*
+sudo rm -rf /var/lib/jenkins/workspace/*
+
+
+sudo fallocate -l 3G /swapfile
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+
+
+echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
+
+
+sudo mount -o remount,size=3G /tmp
+
+
+sudo systemctl restart jenkins
