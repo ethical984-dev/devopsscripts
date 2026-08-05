@@ -53,3 +53,16 @@ echo "Manager: http://<EC2-PUBLIC-IP>:8080/manager/html"
 echo "Username: tomcat"
 echo "Password: root123456"
 echo "========================================"
+
+
+
+#swap space
+sudo rm -rf /tmp/*
+sudo rm -rf /var/lib/jenkins/workspace/*
+
+
+sudo fallocate -l 3G /swapfile
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+
